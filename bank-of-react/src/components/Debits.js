@@ -7,7 +7,7 @@ class Debits extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            amount: 0,
+            amount: 0.0,
             description: ''
         };
     }
@@ -18,23 +18,6 @@ class Debits extends Component {
 
             [event.target.name]: event.target.value
         });
-    }
-
-    onSubmit = () => {
-        this.addNewItem();
-    }
-
-    addNewItem = () => {
-
-        let today = new Date();
-        let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        let yyyy = today.getFullYear();
-
-        today = mm + '/' + dd + '/' + yyyy;
-        return(
-            <DebitView amount={this.state.amount} description={this.state.description} date={today}/>
-        );
     }
 
     render() {
@@ -53,7 +36,10 @@ class Debits extends Component {
                     Description
                     <input type="text" name="description" onChange={this.onChange}/> <br/>
                 </form>
-                <button onSubmit={this.onSubmit}> Add </button>
+
+                <button onClick={() => this.props.addDebit(this.state.amount, this.state.description)}>
+                    Add
+                 </button>
 
                 {this.props.debitData.map(debitData =>
                     <div key={debitData.id}>
